@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dreamy Photobox ✨</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Bungee&family=Pacifico&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=5.0">
+    <link rel="stylesheet" href="style.css?v=6.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
@@ -17,16 +17,16 @@
             <button onclick="toggleMusic()" id="music-btn" class="pill-btn">🎵 Play Music</button>
         </nav>
 
-        <main class="content">
+        <main class="main-grid">
             <section class="camera-panel">
-                <div class="video-container">
+                <div class="video-card">
                     <div id="countdown"></div>
                     <div class="status-badge">LIVE</div>
                     <video id="video" autoplay playsinline muted></video>
                 </div>
 
                 <div class="controls-card">
-                    <div class="control-group">
+                    <div class="input-group">
                         <label>Vibe Filter</label>
                         <select id="filter-select">
                             <option value="none">✨ Natural Glow</option>
@@ -42,8 +42,8 @@
             </section>
 
             <section class="result-panel">
-                <div class="strip-wrapper">
-                    <div id="capture-area" class="frame-retro-strip">
+                <div class="capture-wrapper">
+                    <div id="capture-area" class="frame-rainbow">
                         <div id="photos-container">
                             <div class="placeholder-box">READY</div>
                             <div class="placeholder-box">READY</div>
@@ -59,18 +59,13 @@
                     </div>
                 </div>
                 <button id="download-btn" class="download-btn" disabled>💾 SIMPAN HASIL</button>
-                <p class="ios-info">*iPhone: Gunakan "Long Press" pada gambar hasil jika download tidak mulai</p>
             </section>
         </main>
 
         <footer class="theme-shelf">
-            <h3>Choose Your Frame:</h3>
-            <div class="theme-scroll">
-                <div class="theme-item" onclick="setTheme('frame-retro-strip')"><div class="preview rainbow"></div><span>Rainbow</span></div>
-                <div class="theme-item" onclick="setTheme('frame-checkered-pro')"><div class="preview checker"></div><span>Checker</span></div>
-                <div class="theme-item" onclick="setTheme('frame-sakura')"><div class="preview sakura"></div><span>Sakura</span></div>
-                <div class="theme-item" onclick="setTheme('frame-ocean')"><div class="preview ocean"></div><span>Ocean</span></div>
-            </div>
+            <h3>Pilih Tema Bingkai (20 Varian):</h3>
+            <div class="theme-grid" id="theme-grid">
+                </div>
         </footer>
     </div>
 
@@ -78,6 +73,6 @@
     <audio id="shutter-sound" src="https://assets.mixkit.co/active_storage/sfx/700/700-preview.mp3" preload="auto"></audio>
     <audio id="beep-sound" src="https://assets.mixkit.co/active_storage/sfx/2803/2803-preview.mp3" preload="auto"></audio>
 
-    <script src="script.js?v=5.0"></script>
+    <script src="script.js?v=6.0"></script>
 </body>
 </html>
