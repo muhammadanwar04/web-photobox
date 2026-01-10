@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dreamy Photobox ✨</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Bungee&family=Pacifico&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=4.0">
+    <link rel="stylesheet" href="style.css?v=5.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
@@ -30,11 +30,11 @@
                         <label>Vibe Filter</label>
                         <select id="filter-select">
                             <option value="none">✨ Natural Glow</option>
-                            <option value="brightness(1.2) contrast(1.1) saturate(1.1)">☀️ Sunshine</option>
-                            <option value="sepia(0.4) saturate(1.4) brightness(1.1)">🍑 Peach Warm</option>
+                            <option value="brightness(1.2) contrast(1.1)">☀️ Sunshine</option>
+                            <option value="sepia(0.4) saturate(1.4)">🍑 Peach Warm</option>
                             <option value="grayscale(1) contrast(1.3)">🖤 Noir (B&W)</option>
-                            <option value="blur(0.4px) brightness(1.1) contrast(0.9)">☁️ Angelic Soft</option>
-                            <option value="sepia(0.6) contrast(1.2) brightness(0.9)">🎞️ Vintage</option>
+                            <option value="blur(0.5px) brightness(1.1)">☁️ Angelic Soft</option>
+                            <option value="sepia(0.6) contrast(1.2) brightness(0.9)">🎞️ Vintage Film</option>
                         </select>
                     </div>
                     <button id="start-btn" class="main-action-btn">📸 AMBIL 3x FOTO</button>
@@ -59,7 +59,7 @@
                     </div>
                 </div>
                 <button id="download-btn" class="download-btn" disabled>💾 SIMPAN HASIL</button>
-                <p class="ios-info">*iPhone: Jika gagal, tekan lama gambar lalu "Save to Photos"</p>
+                <p class="ios-info">*iPhone: Gunakan "Long Press" pada gambar hasil jika download tidak mulai</p>
             </section>
         </main>
 
@@ -78,6 +78,6 @@
     <audio id="shutter-sound" src="https://assets.mixkit.co/active_storage/sfx/700/700-preview.mp3" preload="auto"></audio>
     <audio id="beep-sound" src="https://assets.mixkit.co/active_storage/sfx/2803/2803-preview.mp3" preload="auto"></audio>
 
-    <script src="script.js?v=4.0"></script>
+    <script src="script.js?v=5.0"></script>
 </body>
 </html>
