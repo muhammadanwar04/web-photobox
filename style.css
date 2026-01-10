@@ -1,116 +1,115 @@
 :root {
     --primary: #ff8fa3;
     --bg: #fff5f7;
-    --card-shadow: 0 15px 35px rgba(255, 143, 163, 0.15);
+    --card-shadow: 0 15px 35px rgba(255, 143, 163, 0.2);
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-body {
-    background-color: var(--bg);
-    font-family: 'Quicksand', sans-serif;
-    color: #4a4a4a;
-    min-height: 100vh;
-}
+body { background-color: var(--bg); font-family: 'Quicksand', sans-serif; color: #4a4a4a; min-height: 100vh; overflow-x: hidden; }
 
-.app-container { max-width: 1200px; margin: 0 auto; padding: 15px; }
+.app-container { max-width: 1200px; margin: 0 auto; padding: 20px; }
 
-/* Navbar */
+/* Navbar Modern */
 .glass-nav {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-    padding: 12px 25px;
-    border-radius: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-    box-shadow: var(--card-shadow);
-    border: 1px solid #fff;
+    background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px);
+    padding: 15px 25px; border-radius: 25px; display: flex;
+    justify-content: space-between; align-items: center;
+    margin-bottom: 30px; box-shadow: var(--card-shadow); border: 1px solid #fff;
 }
 
-.logo-text { font-family: 'Pacifico', cursive; font-size: 1.5rem; color: var(--primary); }
+.logo-text { font-family: 'Pacifico', cursive; font-size: 1.8rem; color: var(--primary); }
 
 .pill-btn {
-    background: #fff; border: none; padding: 8px 16px; border-radius: 50px;
-    font-weight: 700; color: var(--primary); cursor: pointer; font-size: 0.8rem;
+    background: #fff; border: 1px solid #eee; padding: 10px 20px; border-radius: 50px;
+    font-weight: 700; color: var(--primary); cursor: pointer; transition: 0.3s;
 }
 
-/* Layout */
-.content { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+/* Content Layout */
+.content { display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; align-items: flex-start; }
 
-/* Camera Section */
+/* Camera UI */
 .video-container {
-    position: relative; border-radius: 30px; overflow: hidden;
-    box-shadow: var(--card-shadow); background: #000; border: 8px solid #fff;
+    position: relative; border-radius: 35px; overflow: hidden;
+    box-shadow: var(--card-shadow); background: #000; border: 10px solid #fff;
 }
 
 video { width: 100%; max-width: 500px; display: block; transform: scaleX(-1); }
 
-/* Filters */
+/* Video Filter Classes */
 video.brilliant { filter: brightness(1.2) contrast(1.1) saturate(1.2); }
-video.warm { filter: sepia(0.2) saturate(1.5) brightness(1.1); }
+video.warm { filter: sepia(0.3) saturate(1.4) brightness(1.1); }
 video.mono { filter: grayscale(1) contrast(1.2); }
-video.soft { filter: blur(0.3px) brightness(1.1) contrast(0.9); }
-video.vintage { filter: sepia(0.5) contrast(1.3); }
+video.soft { filter: brightness(1.1) contrast(0.9) blur(0.3px); }
+video.vintage { filter: sepia(0.5) contrast(1.2) brightness(0.9); }
 
 .status-badge {
-    position: absolute; top: 15px; left: 15px; background: #ff4d6d;
-    color: #fff; padding: 4px 10px; border-radius: 20px; font-weight: 700; font-size: 0.6rem;
+    position: absolute; top: 20px; left: 20px; background: #ff4d6d;
+    color: #fff; padding: 5px 12px; border-radius: 20px; font-weight: 700; font-size: 0.7rem;
 }
 
 .controls-card {
-    margin-top: 20px; background: #fff; padding: 20px; border-radius: 25px;
+    margin-top: 25px; background: #fff; padding: 25px; border-radius: 30px;
     box-shadow: var(--card-shadow); width: 100%; max-width: 500px;
 }
 
 .main-action-btn {
-    width: 100%; margin-top: 15px; padding: 15px; border-radius: 15px;
+    width: 100%; margin-top: 20px; padding: 18px; border-radius: 20px;
     border: none; background: linear-gradient(45deg, #ff8fa3, #ffb3c1);
-    color: #fff; font-family: 'Bungee'; font-size: 1rem; cursor: pointer;
+    color: #fff; font-family: 'Bungee'; font-size: 1.1rem; cursor: pointer; transition: 0.3s;
 }
 
-/* Frame Section */
+/* Strip Photo Design */
 #capture-area {
-    width: 260px; padding: 15px; position: relative;
-    display: flex; flex-direction: column; gap: 8px;
+    width: 270px; padding: 18px; position: relative;
+    display: flex; flex-direction: column; gap: 10px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
 }
 
 .frame-retro-strip { background: linear-gradient(180deg, #ff9999, #ffcc99, #ffff99, #99ff99, #99ccff); }
-.frame-checkered-pro { background-color: #333; background-image: linear-gradient(45deg, #eee 25%, transparent 25%), linear-gradient(-45deg, #eee 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #eee 75%), linear-gradient(-45deg, transparent 75%, #eee 75%); background-size: 20px 20px; }
-.frame-forest { background: #d4e09b; border: 8px solid #52796f; }
-.frame-western { background: #f4d35e; border: 6px dashed #7d4f50; }
-.frame-sakura { background: #ffcad4; border: 8px solid #fff; }
-.frame-ocean { background: #a2d2ff; border: 8px solid #fff; }
+.frame-checkered-pro { background-color: #222; background-image: linear-gradient(45deg, #fff 25%, transparent 25%), linear-gradient(-45deg, #fff 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #fff 75%), linear-gradient(-45deg, transparent 75%, #fff 75%); background-size: 30px 30px; }
+.frame-forest { background: #52796f; border: 10px solid #d4e09b; }
+.frame-western { background: #d2b48c; border: 8px dashed #5d4037; }
+.frame-sakura { background: #ffcad4; border: 10px solid #fff; }
+.frame-ocean { background: #a2d2ff; border: 10px solid #fff; }
 
 .photo-item, .placeholder-box {
-    width: 100%; height: 170px; object-fit: cover;
-    background: #fdfdfd; border-radius: 3px; border: 2px solid rgba(255,255,255,0.5);
+    width: 100%; height: 180px; object-fit: cover;
+    background: #fdfdfd; border-radius: 4px; border: 2px solid rgba(255,255,255,0.4);
 }
 
 .frame-branding {
-    background: #fff; padding: 10px; border-radius: 5px;
+    background: #fff; padding: 12px; border-radius: 6px;
     display: flex; justify-content: space-between; align-items: center;
 }
 
-.brand-title { font-family: 'Bungee'; font-size: 0.7rem; color: #ff4d6d; }
-#date-label { font-size: 0.5rem; font-weight: 700; color: #bbb; }
+.brand-title { font-family: 'Bungee'; font-size: 0.8rem; color: #ff4d6d; }
+#date-label { font-size: 0.6rem; font-weight: 700; color: #bbb; }
 
-/* Theme Selector */
-.theme-shelf { margin-top: 30px; text-align: center; width: 100%; }
-.theme-scroll { display: flex; gap: 15px; overflow-x: auto; padding: 15px 0; justify-content: center; }
-.preview { width: 50px; height: 50px; border-radius: 12px; border: 3px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 5px; }
+/* Theme Selector Shelf */
+.theme-shelf { margin-top: 40px; text-align: center; }
+.theme-scroll { display: flex; gap: 20px; overflow-x: auto; padding: 20px 0; justify-content: center; }
+.theme-item { cursor: pointer; text-align: center; transition: 0.3s; }
+.preview { width: 55px; height: 55px; border-radius: 15px; border: 4px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 8px; }
 
-#countdown { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 100px; font-family: 'Bungee'; color: #fff; z-index: 100; text-shadow: 0 0 20px rgba(0,0,0,0.2); }
-#flash { position: fixed; inset: 0; background: white; opacity: 0; pointer-events: none; z-index: 1000; transition: 0.1s; }
+.rainbow { background: linear-gradient(to bottom, red, orange, blue); }
+.checker { background: #333; }
+.forest { background: #52796f; }
+.western { background: #8b4513; }
+.sakura { background: #ffcad4; }
+.ocean { background: #a2d2ff; }
+
+/* Overlay Elements */
+#countdown { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 110px; font-family: 'Bungee'; color: #fff; z-index: 100; text-shadow: 0 0 25px rgba(0,0,0,0.3); }
+#flash { position: fixed; inset: 0; background: white; opacity: 0; pointer-events: none; z-index: 2000; }
 
 .download-btn {
-    width: 100%; margin-top: 15px; padding: 12px; border-radius: 12px;
-    border: none; background: #4ecdc4; color: #fff; font-weight: 700; cursor: pointer;
+    width: 100%; margin-top: 20px; padding: 15px; border-radius: 18px;
+    border: none; background: #4ecdc4; color: #fff; font-weight: 700; cursor: pointer; transition: 0.3s;
 }
 
-/* Responsif Mobile */
-@media (max-width: 600px) {
+@media (max-width: 650px) {
     .content { flex-direction: column; align-items: center; }
     .video-container { width: 100%; }
+    .theme-scroll { justify-content: flex-start; padding-left: 10px; }
 }
