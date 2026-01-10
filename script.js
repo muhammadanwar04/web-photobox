@@ -4,10 +4,40 @@ const startBtn = document.getElementById('start-btn');
 const downloadBtn = document.getElementById('download-btn');
 const container = document.getElementById('photos-container');
 const countdownEl = document.getElementById('countdown');
-const bgm = document.getElementById('bgm');
-const shutterSound = document.getElementById('shutter-sound');
-const beepSound = document.getElementById('beep-sound');
-const flash = document.getElementById('flash');
+const themeGrid = document.getElementById('theme-grid');
+
+const themes = [
+    {id: 'frame-rainbow', name: 'Rainbow', color: 'linear-gradient(to bottom, red, orange, blue)'},
+    {id: 'frame-checker', name: 'Checker', color: '#333'},
+    {id: 'frame-sakura', name: 'Sakura', color: '#ffcad4'},
+    {id: 'frame-ocean', name: 'Ocean', color: '#a2d2ff'},
+    {id: 'frame-cowboy', name: 'Cowboy', color: '#d2b48c'},
+    {id: 'frame-forest', name: 'Forest', color: '#52796f'},
+    {id: 'frame-midnight', name: 'Midnight', color: '#2b2d42'},
+    {id: 'frame-lavender', name: 'Lavender', color: '#e0b1cb'},
+    {id: 'frame-sunflower', name: 'Sunshine', color: '#ffba08'},
+    {id: 'frame-matcha', name: 'Matcha', color: '#ccd5ae'},
+    {id: 'frame-bubblegum', name: 'B-Gum', color: '#ff8fab'},
+    {id: 'frame-mint', name: 'Mint', color: '#b7e4c7'},
+    {id: 'frame-vintage', name: 'Retro', color: '#bc6c25'},
+    {id: 'frame-galaxy', name: 'Galaxy', color: '#3a0ca3'},
+    {id: 'frame-cloud', name: 'Cloudy', color: '#caf0f8'},
+    {id: 'frame-fire', name: 'Hot Fire', color: '#d00000'},
+    {id: 'frame-zebra', name: 'Zebra', color: '#000'},
+    {id: 'frame-leopard', name: 'Leopard', color: '#e9c46a'},
+    {id: 'frame-gold', name: 'Luxury', color: '#d4af37'},
+    {id: 'frame-minimal', name: 'Basic', color: '#eee'}
+];
+
+themes.forEach(t => {
+    const div = document.createElement('div');
+    div.className = 'theme-item';
+    div.onclick = () => setTheme(t.id);
+    div.innerHTML = `<div class="preview" style="background: ${t.color}"></div><span>${t.name}</span>`;
+    themeGrid.appendChild(div);
+});
+
+function setTheme(id) { document.getElementById('capture-area').className = id; }
 
 filterSelect.addEventListener('change', () => {
     video.style.filter = filterSelect.value === 'none' ? '' : filterSelect.value;
@@ -15,45 +45,48 @@ filterSelect.addEventListener('change', () => {
 
 navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } })
     .then(s => { video.srcObject = s; })
-    .catch(err => alert("Izin kamera diperlukan!"));
-
-document.getElementById('date-label').innerText = new Date().toLocaleDateString('id-ID', {day: '2-digit', month: 'short', year: 'numeric'}).toUpperCase();
-
-function toggleMusic() {
-    if (bgm.paused) { bgm.play(); bgm.volume = 0.2; document.getElementById('music-btn').innerText = "⏸ Pause"; }
-    else { bgm.pause(); document.getElementById('music-btn').innerText = "🎵 Play"; }
-}
+    .catch(err => alert("Kamera Error: " + err));
 
 async function runCountdown(sec) {
-    if (!bgm.paused) bgm.volume = 0.05;
     return new Promise(resolve => {
         let count = sec;
         countdownEl.innerText = count;
         const timer = setInterval(() => {
             count--;
-            if (count > 0) { beepSound.currentTime = 0; beepSound.play(); countdownEl.innerText = count; }
-            else { clearInterval(timer); countdownEl.innerText = ""; resolve(); }
+            if (count > 0) {
+                document.getElementById('beep-sound').currentTime = 0;
+                document.getElementById('beep-sound').play();
+                countdownEl.innerText = count;
+            } else {
+                clearInterval(timer);
+                countdownEl.innerText = "";
+                resolve();
+            }
         }, 1000);
     });
+}
+
+function toggleMusic() {
+    const bgm = document.getElementById('bgm');
+    if (bgm.paused) { bgm.play(); bgm.volume = 0.2; } else { bgm.pause(); }
 }
 
 startBtn.addEventListener('click', async () => {
     container.innerHTML = "";
     startBtn.disabled = true;
-    startBtn.innerText = "SMILE! ✨";
 
     for (let i = 0; i < 3; i++) {
         await runCountdown(3);
-        flash.style.opacity = '1'; setTimeout(() => flash.style.opacity = '0', 100);
-        shutterSound.currentTime = 0; shutterSound.play();
+        document.getElementById('flash').style.opacity = '1';
+        setTimeout(() => document.getElementById('flash').style.opacity = '0', 100);
+        document.getElementById('shutter-sound').play();
 
         const canvas = document.createElement('canvas');
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
         const ctx = canvas.getContext('2d');
-
-        ctx.filter = filterSelect.value !== 'none' ? filterSelect.value : 'none';
         
+        ctx.filter = filterSelect.value !== 'none' ? filterSelect.value : 'none';
         ctx.translate(canvas.width, 0);
         ctx.scale(-1, 1);
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -64,38 +97,28 @@ startBtn.addEventListener('click', async () => {
         container.appendChild(img);
         await new Promise(r => setTimeout(r, 600));
     }
-    if (!bgm.paused) bgm.volume = 0.2;
     startBtn.disabled = false;
-    startBtn.innerText = "📸 AMBIL 3x FOTO";
     downloadBtn.disabled = false;
 });
 
-function setTheme(t) { document.getElementById('capture-area').className = t; }
-
 downloadBtn.addEventListener('click', () => {
-    downloadBtn.innerText = "⌛ Generating...";
-    const area = document.getElementById('capture-area');
-    
-    html2canvas(area, { scale: 3, useCORS: true, backgroundColor: null }).then(canvas => {
+    downloadBtn.innerText = "Processing...";
+    html2canvas(document.getElementById('capture-area'), { scale: 3, useCORS: true }).then(canvas => {
         const imgData = canvas.toDataURL('image/png');
-        
         if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
             const newWin = window.open('', '_blank');
             newWin.document.write(`
-                <body style="margin:0; background:#1a1a1a; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; color:#fff; font-family:sans-serif;">
-                    <img src="${imgData}" style="max-width:85%; border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.5);">
-                    <p style="margin-top:25px; font-weight:bold; letter-spacing:1px;">TEKAN LAMA FOTO DI ATAS</p>
-                    <p style="opacity:0.7; font-size:14px;">Lalu pilih "Save to Photos"</p>
-                    <button onclick="window.close()" style="margin-top:30px; padding:12px 30px; border-radius:30px; border:none; background:#ff4d6d; color:#fff; font-weight:bold;">TUTUP</button>
+                <body style="margin:0; background:#111; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; color:#fff; font-family:sans-serif;">
+                    <img src="${imgData}" style="max-width:85%; border-radius:10px; border:4px solid #fff;">
+                    <p style="margin-top:20px;">TEKAN LAMA FOTO UNTUK SIMPAN</p>
+                    <button onclick="window.close()" style="margin-top:20px; padding:10px 20px; border-radius:20px; border:none; background:#ff4d6d; color:#fff;">TUTUP</button>
                 </body>
             `);
         } else {
             const a = document.createElement('a');
             a.download = `photobox-${Date.now()}.png`;
             a.href = imgData;
-            document.body.appendChild(a);
             a.click();
-            document.body.removeChild(a);
         }
         downloadBtn.innerText = "💾 SIMPAN HASIL";
     });
