@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dreamy Photobox ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Bungee&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <div id="flash"></div>
+    
+    <div class="app-container">
+        <nav class="glass-nav">
+            <div class="brand">
+                <span class="sparkle">✨</span>
+                <h1 class="logo-text">Dreamy Studio</h1>
+            </div>
+            <button onclick="toggleMusic()" id="music-btn" class="pill-btn">🎵 Play Magic</button>
+        </nav>
+
+        <main class="content">
+            <section class="camera-panel">
+                <div class="video-container">
+                    <div id="countdown"></div>
+                    <div class="status-badge">LIVE</div>
+                    <video id="video" autoplay playsinline></video>
+                    <div class="shutter-overlay"></div>
+                </div>
+
+                <div class="controls-card">
+                    <div class="control-group">
+                        <label>Vibe Filter</label>
+                        <div class="custom-select">
+                            <select id="filter-select">
+                                <option value="none">✨ Natural Glow</option>
+                                <option value="brilliant">☀️ Sunshine</option>
+                                <option value="warm">🍑 Peach Warm</option>
+                                <option value="mono">🖤 Noir</option>
+                                <option value="soft">☁️ Angelic Soft</option>
+                                <option value="vintage">🎞️ Retro Film</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button id="start-btn" class="main-action-btn">📸 SNAP MOMENTS</button>
+                </div>
+            </section>
+
+            <section class="result-panel">
+                <div class="strip-wrapper">
+                    <div id="capture-area" class="frame-retro-strip">
+                        <div id="photos-container">
+                            <div class="placeholder-box">1</div>
+                            <div class="placeholder-box">2</div>
+                            <div class="placeholder-box">3</div>
+                        </div>
+                        <div class="frame-branding">
+                            <div class="brand-info">
+                                <span class="brand-title">SAY CHEESE!</span>
+                                <span id="date-label">JAN 2026</span>
+                            </div>
+                            <div class="deco-icon">🐾</div>
+                        </div>
+                    </div>
+                </div>
+                <button id="download-btn" class="download-btn" disabled>💾 Save Strip</button>
+            </section>
+        </main>
+
+        <footer class="theme-shelf">
+            <h3>Choose Your Frame Vibe:</h3>
+            <div class="theme-scroll">
+                <div class="theme-item" onclick="setTheme('frame-retro-strip')">
+                    <div class="preview rainbow"></div><span>Rainbow</span>
+                </div>
+                <div class="theme-item" onclick="setTheme('frame-checkered-pro')">
+                    <div class="preview checker"></div><span>Checkered</span>
+                </div>
+                <div class="theme-item" onclick="setTheme('frame-forest')">
+                    <div class="preview forest"></div><span>Forest</span>
+                </div>
+                <div class="theme-item" onclick="setTheme('frame-western')">
+                    <div class="preview western"></div><span>Cowboy</span>
+                </div>
+                <div class="theme-item" onclick="setTheme('frame-sakura')">
+                    <div class="preview sakura"></div><span>Sakura</span>
+                </div>
+                <div class="theme-item" onclick="setTheme('frame-ocean')">
+                    <div class="preview ocean"></div><span>Ocean</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <audio id="bgm" src="https://www.bensound.com/bensound-music/bensound-buddy.mp3" loop></audio>
+    <audio id="shutter-sound" src="https://assets.mixkit.co/active_storage/sfx/700/700-preview.mp3"></audio>
+    <audio id="beep-sound" src="https://assets.mixkit.co/active_storage/sfx/2803/2803-preview.mp3"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
