@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dreamy Photobox ✨</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Bungee&family=Pacifico&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=2.0">
+    <link rel="stylesheet" href="style.css?v=3.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
@@ -13,75 +13,57 @@
     
     <div class="app-container">
         <nav class="glass-nav">
-            <div class="brand">
-                <span class="sparkle">✨</span>
-                <h1 class="logo-text">Dreamy Studio</h1>
-            </div>
-            <button onclick="toggleMusic()" id="music-btn" class="pill-btn">🎵 Play Music</button>
+            <div class="brand"><h1 class="logo-text">Dreamy Studio</h1></div>
+            <button onclick="toggleMusic()" id="music-btn" class="pill-btn">🎵 Music</button>
         </nav>
 
         <main class="content">
             <section class="camera-panel">
                 <div class="video-container">
                     <div id="countdown"></div>
-                    <div class="status-badge">LIVE</div>
                     <video id="video" autoplay playsinline muted></video>
                 </div>
-
                 <div class="controls-card">
-                    <div class="control-group">
-                        <label>Vibe Filter</label>
-                        <select id="filter-select">
-                            <option value="none">✨ Natural Glow</option>
-                            <option value="brilliant">☀️ Sunshine</option>
-                            <option value="warm">🍑 Peach Warm</option>
-                            <option value="mono">🖤 Noir</option>
-                            <option value="soft">☁️ Angelic Soft</option>
-                            <option value="vintage">🎞️ Retro Film</option>
-                        </select>
-                    </div>
-                    <button id="start-btn" class="main-action-btn">📸 SNAP MOMENTS</button>
+                    <label>Pilih Filter:</label>
+                    <select id="filter-select">
+                        <option value="none">✨ Natural</option>
+                        <option value="brightness(1.2) contrast(1.1)">☀️ Sunshine</option>
+                        <option value="sepia(0.5) saturate(1.4)">🍑 Peach</option>
+                        <option value="grayscale(1) contrast(1.2)">🖤 Noir (B&W)</option>
+                        <option value="blur(0.5px) brightness(1.1)">☁️ Soft</option>
+                    </select>
+                    <button id="start-btn" class="main-action-btn">📸 AMBIL FOTO (3x)</button>
                 </div>
             </section>
 
             <section class="result-panel">
-                <div class="strip-wrapper">
-                    <div id="capture-area" class="frame-retro-strip">
-                        <div id="photos-container">
-                            <div class="placeholder-box">READY</div>
-                            <div class="placeholder-box">READY</div>
-                            <div class="placeholder-box">READY</div>
-                        </div>
-                        <div class="frame-branding">
-                            <div class="brand-info">
-                                <span class="brand-title">SAY CHEESE!</span>
-                                <span id="date-label">JAN 2026</span>
-                            </div>
-                            <div class="deco-icon">🐾</div>
-                        </div>
+                <div id="capture-area" class="frame-retro-strip">
+                    <div id="photos-container">
+                        <div class="placeholder-box">READY</div>
+                        <div class="placeholder-box">READY</div>
+                        <div class="placeholder-box">READY</div>
+                    </div>
+                    <div class="frame-branding">
+                        <span class="brand-title">SAY CHEESE!</span>
+                        <span id="date-label">JAN 2026</span>
                     </div>
                 </div>
-                <button id="download-btn" class="download-btn" disabled>💾 SAVE TO DEVICE</button>
+                <button id="download-btn" class="download-btn" disabled>💾 SIMPAN HASIL</button>
+                <p class="ios-hint">*Khusus iPhone: Jika tombol tidak jalan, tekan lama gambar lalu pilih "Simpan ke Foto"</p>
             </section>
         </main>
 
         <footer class="theme-shelf">
-            <h3>Choose Your Frame:</h3>
             <div class="theme-scroll">
-                <div class="theme-item" onclick="setTheme('frame-retro-strip')"><div class="preview rainbow"></div><span>Rainbow</span></div>
-                <div class="theme-item" onclick="setTheme('frame-checkered-pro')"><div class="preview checker"></div><span>Checkered</span></div>
-                <div class="theme-item" onclick="setTheme('frame-forest')"><div class="preview forest"></div><span>Forest</span></div>
-                <div class="theme-item" onclick="setTheme('frame-western')"><div class="preview western"></div><span>Cowboy</span></div>
-                <div class="theme-item" onclick="setTheme('frame-sakura')"><div class="preview sakura"></div><span>Sakura</span></div>
-                <div class="theme-item" onclick="setTheme('frame-ocean')"><div class="preview ocean"></div><span>Ocean</span></div>
+                <button onclick="setTheme('frame-retro-strip')">Rainbow</button>
+                <button onclick="setTheme('frame-checkered-pro')">Checker</button>
+                <button onclick="setTheme('frame-sakura')">Sakura</button>
+                <button onclick="setTheme('frame-ocean')">Ocean</button>
             </div>
         </footer>
     </div>
-
     <audio id="bgm" src="https://www.bensound.com/bensound-music/bensound-buddy.mp3" loop></audio>
     <audio id="shutter-sound" src="https://assets.mixkit.co/active_storage/sfx/700/700-preview.mp3" preload="auto"></audio>
-    <audio id="beep-sound" src="https://assets.mixkit.co/active_storage/sfx/2803/2803-preview.mp3" preload="auto"></audio>
-
-    <script src="script.js?v=2.0"></script>
+    <script src="script.js?v=3.0"></script>
 </body>
 </html>
