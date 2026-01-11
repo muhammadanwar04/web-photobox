@@ -1,130 +1,182 @@
 const video = document.getElementById('video');
-const filterSelect = document.getElementById('filter-select');
+const canvas = document.getElementById('canvas');
 const startBtn = document.getElementById('start-btn');
 const downloadBtn = document.getElementById('download-btn');
 const container = document.getElementById('photos-container');
 const countdownEl = document.getElementById('countdown');
-const themeGrid = document.getElementById('theme-grid');
-const brandText = document.getElementById('brand-text');
-const decoIcon = document.getElementById('deco-icon');
+const captureArea = document.getElementById('capture-area');
 
-const themes = [
-    {id: 'frame-my-sheila', name: 'My Sheila 💖', bg: 'linear-gradient(135deg, #ffafbd, #ff8fa3)'},
-    {id: 'frame-rainbow', name: 'Rainbow', bg: 'linear-gradient(180deg, #ff9999, #ffcc99, #ffff99, #99ff99, #99ccff)'},
-    {id: 'frame-sakura', name: 'Sakura', bg: '#ffcad4'},
-    {id: 'frame-ocean', name: 'Ocean', bg: '#a2d2ff'},
-    {id: 'frame-cowboy', name: 'Cowboy', bg: '#d2b48c'},
-    {id: 'frame-forest', name: 'Forest', bg: '#52796f'},
-    {id: 'frame-checker', name: 'Checker', bg: '#333'},
-    {id: 'frame-midnight', name: 'Midnight', bg: '#2b2d42'},
-    {id: 'frame-lavender', name: 'Lavender', bg: '#e0b1cb'},
-    {id: 'frame-sunflower', name: 'Sunshine', bg: '#ffba08'},
-    {id: 'frame-matcha', name: 'Matcha', bg: '#ccd5ae'},
-    {id: 'frame-bubblegum', name: 'B-Gum', bg: '#ff8fab'},
-    {id: 'frame-mint', name: 'Mint', bg: '#b7e4c7'},
-    {id: 'frame-vintage', name: 'Retro', bg: '#bc6c25'},
-    {id: 'frame-galaxy', name: 'Galaxy', bg: 'linear-gradient(45deg, #3a0ca3, #f72585)'},
-    {id: 'frame-cloud', name: 'Cloudy', bg: '#caf0f8'},
-    {id: 'frame-fire', name: 'Hot Fire', bg: 'linear-gradient(to bottom, #d00000, #ffba08)'},
-    {id: 'frame-zebra', name: 'Zebra', bg: '#000'},
-    {id: 'frame-leopard', name: 'Leopard', bg: '#e9c46a'},
-    {id: 'frame-gold', name: 'Luxury', bg: '#d4af37'},
-    {id: 'frame-minimal', name: 'Basic', bg: '#f8f9fa'}
-];
+const inputTitle = document.getElementById('input-title');
+const inputSub = document.getElementById('input-sub');
+const frameTitle = document.getElementById('frame-title');
+const frameSub = document.getElementById('frame-sub');
 
-themes.forEach(t => {
-    const div = document.createElement('div');
-    div.className = 'theme-item';
-    div.onclick = () => setTheme(t);
-    div.innerHTML = `<div class="preview" style="background: ${t.bg}"></div><span>${t.name}</span>`;
-    themeGrid.appendChild(div);
-});
+let maxPhotos = 4;
+let currentFilter = 'none';
+let currentLayout = 'strip';
 
-function setTheme(theme) { 
-    const area = document.getElementById('capture-area');
-    area.className = theme.id;
-    // Reset manual background for non-checker/zebra/special
-    if(theme.id !== 'frame-checker' && theme.id !== 'frame-zebra') {
-        area.style.background = theme.bg;
-    } else {
-        area.style.background = ''; // Use CSS pattern
-    }
-
-    if(theme.id === 'frame-my-sheila') {
-        brandText.innerText = "I LOVE YOU";
-        decoIcon.innerText = "💖";
-    } else {
-        brandText.innerText = "SAY CHEESE!";
-        decoIcon.innerText = "🐾";
+// Inisialisasi Kamera dengan pengecekan
+async function initCamera() {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ 
+            video: { 
+                facingMode: "user", 
+                width: { ideal: 1280 }, 
+                height: { ideal: 720 } 
+            } 
+        });
+        video.srcObject = stream;
+        // Tunggu video benar-benar siap
+        return new Promise((resolve) => {
+            video.onloadedmetadata = () => {
+                video.play();
+                resolve(true);
+            };
+        });
+    } catch (err) {
+        console.error("Error Kamera:", err);
+        alert("Gagal mengakses kamera. Pastikan izin kamera telah diberikan.");
+        return false;
     }
 }
 
-filterSelect.addEventListener('change', () => {
-    video.style.filter = filterSelect.value === 'none' ? '' : filterSelect.value;
-});
+function setFilter(filterStr) {
+    currentFilter = filterStr;
+    video.style.filter = filterStr;
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('onclick').includes(filterStr));
+    });
+}
 
-navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } })
-    .then(s => { video.srcObject = s; })
-    .catch(err => alert("Kamera Error. Pastikan Izin Diberikan."));
+function updateFrameText() {
+    frameTitle.innerText = inputTitle.value || "Cheerful Studio";
+    frameSub.innerText = inputSub.value || "MOMENTS • 2026";
+}
 
-async function runCountdown(sec) {
+function changeLayout(layoutName, count) {
+    currentLayout = layoutName;
+    maxPhotos = count;
+    document.querySelectorAll('.control-btn').forEach(btn => btn.classList.toggle('active', btn.id === `btn-${layoutName}`));
+    container.className = `layout-${layoutName}`;
+    resetPlaceholders();
+}
+
+function changeTheme(themeName) {
+    captureArea.className = `theme-${themeName}`;
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('onclick').includes(themeName));
+    });
+}
+
+function resetPlaceholders() {
+    container.innerHTML = '';
+    for (let i = 0; i < maxPhotos; i++) {
+        const div = document.createElement('div');
+        const ratioClass = (currentLayout === 'grid') ? "aspect-square" : "aspect-[4/3]";
+        div.className = `${ratioClass} bg-slate-100 animate-pulse rounded-sm w-full`;
+        container.appendChild(div);
+    }
+    downloadBtn.classList.add('hidden');
+}
+
+async function startSession() {
+    // Pastikan video aktif sebelum mulai
+    if (!video.srcObject) {
+        const ready = await initCamera();
+        if (!ready) return;
+    }
+
+    container.innerHTML = '';
+    startBtn.disabled = true;
+    startBtn.innerText = "PROSES...";
+    downloadBtn.classList.add('hidden');
+    
+    for (let i = 0; i < maxPhotos; i++) {
+        await runCountdown(3);
+        takeSnap();
+        await new Promise(r => setTimeout(r, 600)); // Jeda antar jepretan
+    }
+    
+    startBtn.disabled = false;
+    startBtn.innerText = "AMBIL FOTO LAGI";
+    downloadBtn.classList.remove('hidden');
+}
+
+function runCountdown(sec) {
     return new Promise(resolve => {
-        let count = sec;
-        countdownEl.innerText = count;
+        let t = sec;
+        countdownEl.classList.remove('hidden');
+        countdownEl.innerText = t;
         const timer = setInterval(() => {
-            count--;
-            if (count > 0) {
-                document.getElementById('beep-sound').currentTime = 0;
-                document.getElementById('beep-sound').play();
-                countdownEl.innerText = count;
+            t--;
+            if(t > 0) {
+                countdownEl.innerText = t;
             } else {
                 clearInterval(timer);
-                countdownEl.innerText = "";
+                countdownEl.classList.add('hidden');
                 resolve();
             }
         }, 1000);
     });
 }
 
-function toggleMusic() {
-    const bgm = document.getElementById('bgm');
-    if (bgm.paused) { bgm.play(); bgm.volume = 0.2; document.getElementById('music-btn').innerText = "⏸ Pause"; }
-    else { bgm.pause(); document.getElementById('music-btn').innerText = "🎵 Play"; }
+function takeSnap() {
+    const ctx = canvas.getContext('2d');
+    const targetRatio = (currentLayout === 'grid') ? 1/1 : 4/3;
+    
+    canvas.width = 800;
+    canvas.height = 800 / targetRatio;
+
+    const vW = video.videoWidth;
+    const vH = video.videoHeight;
+    
+    // Safety check jika video belum siap
+    if (vW === 0 || vH === 0) return;
+
+    const vRatio = vW / vH;
+    let sX, sY, sW, sH;
+
+    if (vRatio > targetRatio) {
+        sH = vH;
+        sW = vH * targetRatio;
+        sX = (vW - sW) / 2;
+        sY = 0;
+    } else {
+        sW = vW;
+        sH = vW / targetRatio;
+        sX = 0;
+        sY = (vH - sH) / 2;
+    }
+
+    ctx.filter = currentFilter;
+    ctx.translate(canvas.width, 0);
+    ctx.scale(-1, 1);
+    ctx.drawImage(video, sX, sY, sW, sH, 0, 0, canvas.width, canvas.height);
+    
+    const img = document.createElement('img');
+    img.src = canvas.toDataURL('image/png');
+    img.className = "captured-photo rounded-sm";
+    
+    // Hapus satu placeholder dan ganti dengan foto asli
+    container.appendChild(img);
 }
 
-startBtn.addEventListener('click', async () => {
-    container.innerHTML = "";
-    startBtn.disabled = true;
-    for (let i = 0; i < 3; i++) {
-        await runCountdown(3);
-        document.getElementById('flash').style.opacity = '1';
-        setTimeout(() => document.getElementById('flash').style.opacity = '0', 100);
-        document.getElementById('shutter-sound').play();
-        const canvas = document.createElement('canvas');
-        canvas.width = video.videoWidth; canvas.height = video.videoHeight;
-        const ctx = canvas.getContext('2d');
-        ctx.filter = filterSelect.value !== 'none' ? filterSelect.value : 'none';
-        ctx.translate(canvas.width, 0); ctx.scale(-1, 1);
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        const img = document.createElement('img');
-        img.src = canvas.toDataURL('image/png');
-        img.className = 'photo-item';
-        container.appendChild(img);
-        await new Promise(r => setTimeout(r, 600));
-    }
-    startBtn.disabled = false; downloadBtn.disabled = false;
+downloadBtn.addEventListener('click', () => {
+    html2canvas(captureArea, { 
+        scale: 3, 
+        useCORS: true,
+        backgroundColor: null 
+    }).then(cvs => {
+        const link = document.createElement('a');
+        link.download = `cheerful-photobox-${Date.now()}.png`;
+        link.href = cvs.toDataURL('image/png');
+        link.click();
+    });
 });
 
-downloadBtn.addEventListener('click', () => {
-    downloadBtn.innerText = "⌛ Processing...";
-    html2canvas(document.getElementById('capture-area'), { scale: 3, useCORS: true }).then(canvas => {
-        const imgData = canvas.toDataURL('image/png');
-        if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-            const newWin = window.open('', '_blank');
-            newWin.document.write(`<body style="margin:0; background:#000; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; color:#fff; font-family:sans-serif;"><img src="${imgData}" style="max-width:85%; border:4px solid #fff; border-radius:15px;"><p style="margin-top:20px;">TEKAN LAMA FOTO UNTUK SIMPAN</p><button onclick="window.close()" style="margin-top:20px; padding:12px 25px; background:#ff4d6d; color:#fff; border:none; border-radius:20px; font-weight:bold;">KEMBALI</button></body>`);
-        } else {
-            const a = document.createElement('a'); a.download = `photobox-sheila.png`; a.href = imgData; a.click();
-        }
-        downloadBtn.innerText = "💾 SIMPAN HASIL";
-    });
+startBtn.addEventListener('click', startSession);
+
+// Jalankan inisialisasi
+initCamera().then(() => {
+    resetPlaceholders();
 });
