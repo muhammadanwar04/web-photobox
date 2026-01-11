@@ -2,82 +2,92 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dreamy Photobox ✨</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Bungee&family=Pacifico&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=8.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheerful Studio Pro - Premium Edition</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&family=Yellowtail&family=Cinzel:wght@700&family=Montserrat:wght@700;900&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <div id="flash"></div>
-    
-    <div class="app-container">
-        <nav class="glass-nav">
-            <div class="brand"><h1 class="logo-text">Dreamy Studio</h1></div>
-            <button onclick="toggleMusic()" id="music-btn" class="pill-btn">🎵 Play Music</button>
-        </nav>
+<body class="bg-[#F1F5F9] text-slate-900 min-h-screen font-['Plus_Jakarta_Sans']">
 
-        <main class="main-grid">
-            <section class="camera-panel">
-                <div class="video-card">
-                    <div id="countdown"></div>
-                    <div class="status-badge">LIVE</div>
-                    <video id="video" autoplay playsinline muted></video>
+    <div class="max-w-7xl mx-auto px-4 py-8 lg:py-12">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl lg:text-6xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-indigo-600 via-purple-600 to-rose-500 mb-3">
+                HEHEHE.
+            </h1>
+            <p class="text-slate-500 font-medium">Desain bingkai premium untuk setiap cerita unikmu.</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+            <div class="lg:col-span-7 space-y-6">
+                <div class="relative rounded-[2rem] overflow-hidden bg-black shadow-2xl aspect-video ring-4 ring-white">
+                    <video id="video" autoplay playsinline class="w-full h-full object-cover"></video>
+                    <div id="countdown" class="hidden absolute inset-0 flex items-center justify-center text-white text-8xl lg:text-9xl font-extrabold bg-black/40 backdrop-blur-sm z-10"></div>
                 </div>
 
-                <div class="controls-card">
-                    <div class="input-group">
-                        <label>Vibe Filter</label>
-                        <select id="filter-select">
-                            <option value="none">✨ Natural Glow</option>
-                            <option value="brightness(1.2) contrast(1.1)">☀️ Sunshine</option>
-                            <option value="sepia(0.4) saturate(1.4)">🍑 Peach Warm</option>
-                            <option value="grayscale(1) contrast(1.3)">🖤 Noir (B&W)</option>
-                            <option value="blur(0.5px) brightness(1.1)">☁️ Angelic Soft</option>
-                            <option value="sepia(0.6) contrast(1.2) brightness(0.9)">🎞️ Vintage Film</option>
-                        </select>
-                    </div>
-                    <button id="start-btn" class="main-action-btn">📸 AMBIL 3x FOTO</button>
-                </div>
-            </section>
-
-            <section class="result-panel">
-                <div class="capture-wrapper">
-                    <div id="capture-area" class="frame-my-sheila">
-                        <div class="sheila-decor">
-                            <span class="d-1">🌸</span><span class="d-2">💖</span>
-                            <span class="d-3">✨</span><span class="d-4">🌸</span>
-                            <span class="d-5">💖</span><span class="d-6">✨</span>
-                        </div>
-                        
-                        <div id="photos-container">
-                            <div class="placeholder-box">READY</div>
-                            <div class="placeholder-box">READY</div>
-                            <div class="placeholder-box">READY</div>
-                        </div>
-                        <div class="frame-branding">
-                            <div class="brand-info">
-                                <span class="brand-title" id="brand-text">I LOVE YOU</span>
-                                <span id="date-label">JAN 2026</span>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 lg:p-8 rounded-[2.5rem] shadow-xl border border-white">
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-400 mb-3">Layout & Filter</h3>
+                            <div class="grid grid-cols-2 gap-2 mb-3">
+                                <button onclick="changeLayout('strip', 4)" class="control-btn active" id="btn-strip">Classic Strip</button>
+                                <button onclick="changeLayout('grid', 4)" class="control-btn" id="btn-grid">Grid Square</button>
                             </div>
-                            <div class="deco-icon" id="deco-icon">💖</div>
+                            <div class="grid grid-cols-3 gap-2">
+                                <button onclick="setFilter('none')" class="filter-btn active" id="filter-none">Pure</button>
+                                <button onclick="setFilter('grayscale(100%)')" class="filter-btn" id="filter-bw">B&W</button>
+                                <button onclick="setFilter('sepia(0.8) contrast(1.2)')" class="filter-btn" id="filter-vibe">Vibe</button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-400 mb-3">Pilih Tema Desain</h3>
+                            <div class="grid grid-cols-3 gap-2 max-h-40 overflow-y-auto pr-2 custom-scroll">
+                                <button onclick="changeTheme('classic')" class="theme-btn active">Minimal</button>
+                                <button onclick="changeTheme('love')" class="theme-btn text-rose-500">Romance</button>
+                                <button onclick="changeTheme('sky')" class="theme-btn text-sky-500">Dreamy</button>
+                                <button onclick="changeTheme('ocean')" class="theme-btn text-cyan-600">Deep Sea</button>
+                                <button onclick="changeTheme('egypt')" class="theme-btn text-amber-700">Empire</button>
+                                <button onclick="changeTheme('matcha')" class="theme-btn text-lime-600">Zen</button>
+                                <button onclick="changeTheme('cowboy')" class="theme-btn text-orange-800">Wild West</button>
+                                <button onclick="changeTheme('forest')" class="theme-btn text-emerald-800">Evergreen</button>
+                                <button onclick="changeTheme('dark')" class="theme-btn text-slate-800">Elegant</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-400 mb-3">Personalisasi</h3>
+                            <div class="space-y-3">
+                                <input type="text" id="input-title" placeholder="Nama Momen" class="custom-input" oninput="updateFrameText()">
+                                <input type="text" id="input-sub" placeholder="Tanggal/Lokasi" class="custom-input" oninput="updateFrameText()">
+                            </div>
+                        </div>
+                        <div class="space-y-3 pt-4">
+                            <button id="start-btn" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-black tracking-widest hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-200 active:scale-95">AMBIL FOTO</button>
+                            <button id="download-btn" class="hidden w-full bg-rose-500 text-white py-4 rounded-2xl font-black tracking-widest hover:bg-rose-600 transition-all shadow-lg shadow-rose-200">DOWNLOAD PNG</button>
                         </div>
                     </div>
                 </div>
-                <button id="download-btn" class="download-btn" disabled>💾 SIMPAN HASIL</button>
-            </section>
-        </main>
+            </div>
 
-        <footer class="theme-shelf">
-            <h3>Pilih Tema Bingkai:</h3>
-            <div class="theme-grid" id="theme-grid"></div>
-        </footer>
+            <div class="lg:col-span-5 flex justify-center items-start">
+                <div class="sticky top-10 w-full flex flex-col items-center">
+                    <div id="capture-area" class="theme-classic"> 
+                        <div id="photos-container" class="layout-strip"></div>
+                        <div class="frame-footer">
+                            <h2 id="frame-title" class="footer-title">Cheerful Studio</h2>
+                            <p id="frame-sub" class="footer-date">MOMENTS • 2026</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <audio id="bgm" src="https://www.bensound.com/bensound-music/bensound-buddy.mp3" loop></audio>
-    <audio id="shutter-sound" src="https://assets.mixkit.co/active_storage/sfx/700/700-preview.mp3" preload="auto"></audio>
-    <audio id="beep-sound" src="https://assets.mixkit.co/active_storage/sfx/2803/2803-preview.mp3" preload="auto"></audio>
-
-    <script src="script.js?v=8.0"></script>
+    <canvas id="canvas" class="hidden"></canvas>
+    <script src="script.js"></script>
 </body>
 </html>
